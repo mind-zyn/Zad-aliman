@@ -1,0 +1,192 @@
+<html lang="ar" dir="rtl"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>زاد الإيمان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&amp;family=Reem+Kufi:wght@500;700&amp;family=Cairo:wght@600;800&amp;display=swap" rel="stylesheet">
+    
+    <style>
+        /* ================== التصميم (نفس التصميم السابق) ================== */
+        :root {
+            --bg-color: #fcfbf7; --text-color: #2c3e50; --accent-color: #145646; --card-bg: #ffffff;
+            --dim-color: rgba(20, 86, 70, 0.15); --border-color: #d4af37; --splash-bg: #f8f9fa;
+            --secondary-text: #666; --fadl-color: #8e6e0f; --pattern-color: rgba(20, 86, 70, 0.03);
+        }
+        body.dark-mode {
+            --bg-color: #05101c; --text-color: #e0e6ed; --accent-color: #d4af37; --card-bg: #0f2035;
+            --dim-color: rgba(5, 16, 28, 0.90); --border-color: #d4af37; --splash-bg: #020c15;
+            --secondary-text: #8892b0; --fadl-color: #a8b2d1; --pattern-color: rgba(212, 175, 55, 0.05);
+        }
+        html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+        body {
+            font-family: 'Amiri', serif; background-color: var(--bg-color); color: var(--text-color);
+            min-height: 100vh; display: flex; flex-direction: column; transition: background-color 0.4s, color 0.4s;
+            background-image: radial-gradient(circle, var(--pattern-color) 10%, transparent 11%), radial-gradient(circle at 45% 45%, var(--pattern-color) 10%, transparent 11%);
+            background-size: 30px 30px;
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+
+        header {
+            display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;
+            background-color: var(--card-bg); box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--accent-color);
+        }
+        .app-title { font-family: 'Reem Kufi', sans-serif; font-size: 1.4rem; color: var(--accent-color); font-weight: bold; }
+        .header-icons button { font-size: 1.4rem; background: none; border: none; cursor: pointer; color: var(--text-color); }
+
+        /* الشاشة الافتتاحية */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--splash-bg);
+            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999999; /* رقم عالي جداً */
+            transition: opacity 0.8s ease-out; background-image: radial-gradient(var(--pattern-color) 2px, transparent 2px); background-size: 20px 20px;
+            opacity: 1; visibility: visible; /* التأكيد على الظهور */
+        }
+        .logo-box {
+            position: relative; padding: 40px; border: 2px solid var(--accent-color); border-radius: 15px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.1); animation: floatLogo 3s infinite ease-in-out; background: var(--card-bg);
+        }
+        .logo-box::before, .logo-box::after { content: "◆"; color: var(--accent-color); position: absolute; font-size: 20px; }
+        .logo-box::before { top: -12px; left: 50%; transform: translateX(-50%); } .logo-box::after { bottom: -12px; left: 50%; transform: translateX(-50%); }
+        .logo-text { font-family: 'Reem Kufi', sans-serif; font-size: 3rem; color: var(--accent-color); font-weight: 800; text-shadow: 2px 2px 0px rgba(0,0,0,0.05); letter-spacing: -1px; }
+        @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        #main-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 25px; padding: 30px 20px; max-width: 1000px; margin: 0 auto; width: 100%; }
+        .category-circle {
+            aspect-ratio: 1/1; background-color: var(--card-bg); border: 2px solid var(--border-color); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            position: relative; cursor: pointer; transition: transform 0.2s; overflow: hidden; padding: 10px;
+        }
+        .category-circle::after { content: ''; position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; border: 1px dashed var(--accent-color); border-radius: 50%; opacity: 0.3; }
+        .category-circle:active { transform: scale(0.95); }
+        .category-circle h3 { margin: 0; font-family: 'Reem Kufi'; font-size: 1.3rem; color: var(--accent-color); text-align: center; font-weight: 700; width: 100%; z-index: 2; }
+
+        #content-container { padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; display: none; padding-bottom: 80px; }
+        .zekr-card {
+            background-color: var(--card-bg); border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.05);
+            border-right: 5px solid var(--accent-color); position: relative; overflow: hidden; padding: 20px;
+            transition: all 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .progress-overlay { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background-color: var(--dim-color); z-index: 1; transition: width 0.3s ease-out; }
+        .zekr-content { position: relative; z-index: 2; }
+        .zekr-text { font-size: 1.5rem; text-align: center; margin-bottom: 15px; line-height: 1.9; color: var(--text-color); }
+        .zekr-fadl { font-size: 1rem; color: var(--fadl-color); text-align: center; background-color: rgba(0,0,0,0.03); padding: 8px; border-radius: 8px; margin-bottom: 15px; border-left: 2px solid var(--border-color); font-family: 'Cairo', sans-serif; }
+        .zekr-footer { display: flex; justify-content: center; align-items: center; position: relative; z-index: 10; }
+        .counter-box {
+            background: var(--accent-color); color: #fff; padding: 8px 30px; border-radius: 50px; font-weight: bold;
+            font-family: 'Cairo'; font-size: 1.1rem; min-width: 80px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; user-select: none;
+        }
+        .zekr-card.done .counter-box { background: #27ae60; }
+        .reader-view { font-size: 1.6rem; line-height: 2.4; white-space: pre-wrap; padding: 10px; text-align: justify; font-family: 'Amiri', serif; }
+
+        #admin-panel { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg); border-top: 5px solid var(--accent-color); padding: 20px; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); z-index: 2000; display: none; max-height: 85vh; overflow-y: auto; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; font-family: 'Cairo'; font-size: 0.9rem; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-family: 'Cairo'; font-size: 1rem; background: var(--bg-color); color: var(--text-color); }
+        .btn-primary { background: var(--accent-color); color: #fff; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px; font-family: 'Cairo'; }
+        .add-content-btn { position: fixed; bottom: 30px; left: 30px; background: var(--accent-color); color: #fff; width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; box-shadow: 0 5px 20px rgba(0,0,0,0.3); cursor: pointer; z-index: 90; border: none; }
+        .manage-item { background: rgba(0,0,0,0.05); padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-delete { background: #c0392b; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-family: 'Cairo'; font-size: 0.8rem; }
+        .admin-only { display: block; }
+
+        #export-textarea { width: 100%; height: 200px; direction: ltr; font-family: monospace; font-size: 10px; background: #222; color: #0f0; padding: 10px; border-radius: 8px; margin-top: 10px; }
+    </style>
+</head>
+<body class="">
+
+    <div id="splash-screen" style="opacity: 1; display: flex;">
+        <div class="logo-box">
+            <div class="logo-text">زاد الإيمان</div>
+        </div>
+    </div>
+
+    <header>
+        <button id="backBtn" onclick="goBack()" style="visibility:hidden; font-size:1.5rem; color:var(--accent-color); background:none; border:none; padding:5px;">➜</button>
+        <div class="app-title" id="pageTitle">زاد الإيمان</div>
+        <div class="header-icons">
+            <button onclick="toggleTheme()" id="themeIcon">🌙</button>
+        </div>
+    </header>
+
+    <div id="main-container">
+                <div class="category-circle" onclick="openSection(1769894194860)">
+                    <h3>أذكار الصباح</h3>
+                </div>
+            
+                <div class="category-circle" onclick="openSection(1769895097749)">
+                    <h3>اذكار المساء</h3>
+                </div>
+            </div>
+    <div id="content-container"></div>
+
+    
+
+    
+
+    <script>
+                const db = [{"id":1769894194860,"title":"أذكار الصباح","type":"azkar","content":[{"text":"الله اكبر","title":"","fadl":"١٠٠ حسنه ","count":100}]},{"id":1769895097749,"title":"اذكار المساء","type":"azkar","content":[]}];
+                
+                window.onload = function() { 
+                    setTimeout(() => { 
+                        const splash = document.getElementById('splash-screen');
+                        if(splash) {
+                            splash.style.opacity = '0'; 
+                            setTimeout(() => { splash.style.display = 'none'; }, 800); 
+                        }
+                    }, 2000); 
+                    renderHome(); 
+                };
+                
+                const mainContainer = document.getElementById('main-container');
+                const contentContainer = document.getElementById('content-container');
+                const pageTitle = document.getElementById('pageTitle');
+                const backBtn = document.getElementById('backBtn');
+                
+                function renderHome() { mainContainer.innerHTML = db.map(sec => `<div class="category-circle" onclick="openSection(${sec.id})"><h3>${sec.title}</h3></div>`).join(''); }
+                
+                function openSection(id) { 
+                    const sec = db.find(s => s.id === id); if(!sec) return; 
+                    history.pushState({view: 'section', id: id}, null, ""); 
+                    mainContainer.style.display = 'none'; contentContainer.style.display = 'block'; 
+                    backBtn.style.visibility = 'visible'; pageTitle.innerText = sec.title; 
+                    if(sec.type === 'azkar') renderAzkar(sec.content); else if(sec.type === 'quran') renderList(sec.content, 'quran'); else renderList(sec.content, 'text'); 
+                    window.scrollTo(0,0); 
+                }
+                
+                function renderAzkar(list) { 
+                    contentContainer.innerHTML = list.map((item, i) => `
+                        <div class="zekr-card" id="card-${i}" onclick="clickZekr(${i}, ${item.count})">
+                            <div class="progress-overlay" id="overlay-${i}"></div>
+                            <div class="zekr-content">
+                                <div class="zekr-text">${item.text}</div>
+                                ${item.fadl ? `<div class="zekr-fadl">✨ ${item.fadl}</div>` : ''}
+                                <div class="zekr-footer"><span class="counter-box" id="cnt-${i}">${item.count}</span></div>
+                            </div>
+                        </div>
+                    `).join(''); 
+                }
+                
+                function clickZekr(i, total) { 
+                    let el = document.getElementById(`cnt-${i}`); let curr = parseInt(el.innerText); 
+                    if(isNaN(curr)) return; 
+                    if(curr > 1) { curr--; el.innerText = curr; document.getElementById(`overlay-${i}`).style.width = `${((total-curr)/total)*100}%`; } 
+                    else { el.innerText = "تم"; document.getElementById(`card-${i}`).classList.add('done'); document.getElementById(`overlay-${i}`).style.width = `100%`; } 
+                }
+                
+                function renderList(list, type) { 
+                    contentContainer.innerHTML = list.map(item => `
+                        <div class="zekr-card" style="cursor:default;">
+                            <div class="zekr-content">
+                                ${item.title ? `<h3 style="color:var(--accent-color); margin-top:0; text-align:center;">${item.title}</h3>` : ''}
+                                <div class="${type==='quran'?'reader-view':'zekr-text'}">${item.text}</div>
+                                ${item.fadl ? `<div class="zekr-fadl">✨ ${item.fadl}</div>` : ''}
+                            </div>
+                        </div>
+                    `).join(''); 
+                }
+                
+                function goBack() { history.back(); }
+                window.onpopstate = function(e) { if(!e.state) { mainContainer.style.display = 'grid'; contentContainer.style.display = 'none'; backBtn.style.visibility = 'hidden'; pageTitle.innerText = "زاد الإيمان"; } };
+                function toggleTheme() { document.body.classList.toggle('dark-mode'); document.getElementById('themeIcon').innerText = document.body.classList.contains('dark-mode') ? '☀️' : '🌙'; }
+            </script>
+
+
+</body></html>
